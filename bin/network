@@ -1,0 +1,4 @@
+#!/bin/bash
+
+NETWORK_SUBNET="172.85.0"
+docker network create -d bridge network_local --subnet=${NETWORK_SUBNET}.0/16 --gateway=${NETWORK_SUBNET}.1

@@ -1,0 +1,35 @@
+# Jesus Dominguez (j.dominguez@kodeline.com)
+# Based on Mark Shust's Docker Configuration for Magento (https://github.com/markoshust/docker-magento)
+# Version 1.0.0
+
+
+
+version: "3"
+
+services:
+  app:
+    build: images/nginx/1.13
+    ports:
+      - 80:8000
+    links:
+      - phpfpm
+    volumes: &appvolumes
+      - ./src/:/var/www/html:delegated
+      - ~/.composer:/var/www/.composer:delegated
+      - sockdata:/sock
+    networks:
+      network_local:
+        ipv4_address: 172.85.0.10
+  phpfpm:
+    build: images/php/5.6
+    volumes: *appvolumes
+    networks:
+       network_local:
+         ipv4_address: 172.85.0.11
+
+volumes:
+    sockdata:
+
+networks:
+  network_local:
+     external: true
